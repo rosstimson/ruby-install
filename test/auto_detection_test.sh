@@ -42,6 +42,14 @@ function test_downloader_without_wget_but_with_curl()
 	assertEquals "did not detect curl" "curl" "$downloader" 
 }
 
+function test_downloader_without_wget_or_curl_but_with_fetch()
+{
+	(! command -v wget >/dev/null && ! command -v curl >/dev/null \
+	                              && command -v fetch >/dev/null) || return
+
+	assertEquals "did not detect fetch" "fetch" "$downloader" 
+}
+
 function test_downloader_with_md5sum()
 {
 	command -v md5sum >/dev/null || return

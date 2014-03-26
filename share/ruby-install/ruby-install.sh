@@ -23,8 +23,9 @@ fi
 #
 # Auto-detect the downloader.
 #
-if   command -v wget >/dev/null; then downloader="wget"
-elif command -v curl >/dev/null; then downloader="curl"
+if   command -v wget  >/dev/null; then downloader="wget"
+elif command -v curl  >/dev/null; then downloader="curl"
+elif command -v fetch >/dev/null; then downloader="fetch"
 fi
 
 #
@@ -136,8 +137,9 @@ function download()
 	case "$downloader" in
 		wget) wget -c -O "$dest.part" "$url" || return $?         ;;
 		curl) curl -f -L -C - -o "$dest.part" "$url" || return $? ;;
+    fetch) fetch -a -r -o "$dest.part" "$url" || return $?    ;;
 		"")
-			error "Could not find wget or curl"
+			error "Could not find wget, curl or fetch"
 			return 1
 			;;
 	esac

@@ -30,7 +30,7 @@ function test_download_using_wget()
 
 	downloader="wget" download "$URL" "$OUTPUT" 2>/dev/null
 
-	assertTrue "did not download the file" '[[ -f "$OUTPUT" ]]'
+	assertTrue "did not download the file with wget" '[[ -f "$OUTPUT" ]]'
 }
 
 function test_download_using_curl()
@@ -39,7 +39,16 @@ function test_download_using_curl()
 
 	downloader="curl" download "$URL" "$OUTPUT" 2>/dev/null
 
-	assertTrue "did not download the file" '[[ -f "$OUTPUT" ]]'
+	assertTrue "did not download the file with curl" '[[ -f "$OUTPUT" ]]'
+}
+
+function test_download_using_fetch()
+{
+  command -v fetch >/dev/null || return
+	
+	downloader="fetch" download "$URL" "$OUTPUT" 2>/dev/null
+
+	assertTrue "did not download the file with fetch" '[[ -f "$OUTPUT" ]]'
 }
 
 function tearDown()
